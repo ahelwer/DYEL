@@ -2,7 +2,7 @@
 
 <h2>Sign Up or <a href="/login">Login</a></h2>
 <form novalidate class="css-form">
-    Username:   <input type="text"      ng-model="newUser.Id"     required /><br />
+    Username:   <input type="text"      ng-model="newUser.PersonId"     required /><br />
     Password:   <input type="text"      ng-model="newUser.Password" required /><br />
     Gender:     <input type="radio"     ng-model="newUser.Gender"   value="Male" />Male
                 <input type="radio"     ng-model="newUser.Gender"   value="Female" />Female

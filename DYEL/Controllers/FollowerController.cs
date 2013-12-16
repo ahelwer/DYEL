@@ -16,14 +16,6 @@ namespace DYEL.Controllers
     {
         private DYELContext db = new DYELContext();
 
-        public IEnumerable<Follower> GetFollowing(String followerId)
-        {
-            return  from follow in db.Followers
-                    where follow.FollowerId == followerId
-                    orderby follow.FolloweeId ascending
-                    select follow;
-        }
-
         public IEnumerable<Follower> GetFollowers(String followeeId)
         {
             return from follow in db.Followers
@@ -32,6 +24,13 @@ namespace DYEL.Controllers
                    select follow;
         }
 
+        public IEnumerable<Follower> GetFollowing(String followerId)
+        {
+            return from follow in db.Followers
+                   where follow.FollowerId == followerId
+                   orderby follow.FolloweeId ascending
+                   select follow;
+        }
         public IHttpActionResult PostNewFollow([FromBody]Follower follow)
         {
             if (null == db.Followers.Find(follow.FollowerId, follow.FolloweeId)

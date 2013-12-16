@@ -36,6 +36,8 @@ namespace DYEL.Models
         public System.Data.Entity.DbSet<DYEL.Models.Workout> Workouts { get; set; }
 
         public System.Data.Entity.DbSet<DYEL.Models.Joiner> Joiners { get; set; }
+
+        public System.Data.Entity.DbSet<DYEL.Models.Session> Sessions { get; set; }
     
     }
 }

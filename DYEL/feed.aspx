@@ -1,4 +1,4 @@
-﻿<h2>Discussion Feed for {{personId}}</h2>
+﻿<h2>Discussion Feed for {{SessionName}}</h2>
 Following: {{following.length-1}} // Followers: {{followers.length-1}} // <a href="/follows">[Manage]</a><br />
 <button ng-click="getPosts()">Refresh</button>
 

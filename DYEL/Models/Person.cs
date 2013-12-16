@@ -9,7 +9,7 @@ namespace DYEL.Models
     public enum Gender { Male, Female, Other };
     public class Person
     {
-        public String Id { get; set; }
+        public String PersonId { get; set; }
         public String Password { get; set; }
         public Gender Gender { get; set; }
         public int Age { get; set; }

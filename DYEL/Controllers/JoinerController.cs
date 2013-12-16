@@ -28,7 +28,7 @@ namespace DYEL.Controllers
                    .ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public IEnumerable<Joiner> GetWorkoutJoiners(Guid workoutId)
+        public IEnumerable<Joiner> GetWorkoutJoiners(String personId, Guid workoutId)
         {
             return from joiner in db.Joiners
                    where joiner.WorkoutId == workoutId

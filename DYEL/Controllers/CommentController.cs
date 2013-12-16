@@ -16,12 +16,21 @@ namespace DYEL.Controllers
     {
         private DYELContext db = new DYELContext();
 
-        public IEnumerable<Comment> GetComments(Guid postId)
+        public IEnumerable<Comment> GetComments(String personId, Guid postId)
         {
-            return from comment in db.Comments
-                   where comment.PostId == postId
-                   orderby comment.Time ascending
-                   select comment;
+            Post post = db.Posts.Find(postId);
+
+            if (null != post && null != db.Followers.Find(personId, post.PersonId))
+            {
+                return from comment in db.Comments
+                       where comment.PostId == postId
+                       orderby comment.Time ascending
+                       select comment;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public IHttpActionResult PostNewComment([FromBody]Comment newComment)

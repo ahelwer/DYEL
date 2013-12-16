@@ -27,8 +27,6 @@ namespace DYEL.Controllers
 
         public IHttpActionResult PostNewPost([FromBody]Post newPost)
         {
-            System.Diagnostics.Debug.WriteLine(newPost.PersonId + " " + newPost.Text + " "+ newPost.Focus);
-
             if (null != newPost
                 && null != newPost.PersonId
                 && null != db.People.Find(newPost.PersonId)

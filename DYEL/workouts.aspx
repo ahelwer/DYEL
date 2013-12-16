@@ -1,4 +1,4 @@
-﻿<h2>Workouts Feed for {{personId}}</h2>
+﻿<h2>Workouts Feed for {{SessionName}}</h2>
 Following: {{following.length-1}} // Followers: {{followers.length-1}} // <a href="/follows">[Manage]</a><br />
 <button ng-click="getWorkouts()">Refresh</button>
 
@@ -27,8 +27,8 @@ Following: {{following.length-1}} // Followers: {{followers.length-1}} // <a hre
     <ul>
         <li ng-repeat="join in joiners[workout.WorkoutId] | filter:joinRequestNotRejected">
             {{join.PersonId}} 
-            <button ng-show="join.Status == 0 && workout.PersonId == personId" ng-click="respond(join, 'Accepted')">Accept</button> 
-            <button ng-show="join.Status == 0 && workout.PersonId == personId" ng-click="respond(join, 'Rejected')">Reject</button>
+            <button ng-show="join.Status == 0 && workout.PersonId == SessionName" ng-click="respond(join, 'Accepted')">Accept</button> 
+            <button ng-show="join.Status == 0 && workout.PersonId == SessionName" ng-click="respond(join, 'Rejected')">Reject</button>
         </li>
     </ul>
 </div>

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Do you even lift?</title>
 
-    <script src="Scripts/angular.min.js"></script>
+    <script src="Scripts/angular.js"></script>
     <script src="Scripts/angular-route.min.js"></script>
     <script src="Scripts/angular-resource.min.js"></script>
     <script src="Scripts/jquery-1.9.1.min.js"></script>
@@ -20,7 +20,7 @@
         var dyelControllers = angular.module('dyelControllers', []);
 
         // HEADER CONTROLLER
-        dyelControllers.controller('HeaderCtrl', function ($scope, $location) {
+        dyelControllers.controller('HeaderCtrl', function ($rootScope, $scope, $location, Session) {
 
             // Determine if view location is active
             $scope.isActive = function (viewLocation) {

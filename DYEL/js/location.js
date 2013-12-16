@@ -2,13 +2,13 @@
 
 // FITNESS LOCATIONS CONTROLLER
 dyelControllers.controller('LocationsCtrl', function ($scope, $location, Utilities, FitnessLocation, Attends, Focus) {
-    if (null == $scope.personId) {
+    if (null == $scope.SessionId) {
         $location.url('/login');
         return;
     }
 
     $scope.locations = FitnessLocation.getAll();
-    $scope.attends = Attends.attends({ personId: $scope.personId });
+    $scope.attends = Attends.attends({ SessionId: $scope.SessionId });
     $scope.foci = Focus.getAll();
 
     // Filter for locations attended
@@ -25,15 +25,15 @@ dyelControllers.controller('LocationsCtrl', function ($scope, $location, Utiliti
 
     // Mark location as attended
     $scope.submitNewAttend = function (fitnessLocationId) {
-        Attends.add({ personId: $scope.personId, locationId: fitnessLocationId }, function () {
-            $scope.attends = Attends.attends({ personId: $scope.personId })
+        Attends.add({ SessionId: $scope.SessionId, LocationId: fitnessLocationId }, function () {
+            $scope.attends = Attends.attends({ SessionId: $scope.SessionId })
         });
     }
 
     // Remove location from attended
     $scope.removeAttend = function (fitnessLocationId) {
-        Attends.remove({ personId: $scope.personId, locationId: fitnessLocationId }, function () {
-            $scope.attends = Attends.attends({ personId: $scope.personId })
+        Attends.remove({ SessionId: $scope.SessionId, LocationId: fitnessLocationId }, function () {
+            $scope.attends = Attends.attends({ SessionId: $scope.SessionId })
         });
     }
 

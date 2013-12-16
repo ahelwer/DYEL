@@ -18,17 +18,8 @@ namespace DYEL.Controllers
 
         public IEnumerable<Attends> GetAttends(String personId)
         {
-            System.Diagnostics.Debug.WriteLine("getting attends for " + personId);
             return from attend in db.Attends
                    where attend.PersonId == personId
-                   select attend;
-        }
-
-        public IEnumerable<Attends> GetAttending(Guid locationId)
-        {
-            return from attend in db.Attends
-                   where attend.LocationId == locationId
-                   orderby attend.PersonId ascending
                    select attend;
         }
 

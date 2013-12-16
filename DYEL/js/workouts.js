@@ -2,7 +2,7 @@
 
 // WORKOUTS CONTROLLER
 dyelControllers.controller('WorkoutsCtrl', function ($scope, $location, $routeParams, Utilities, Person, FitnessLocation, Follower, Workout, Joiner, Focus) {
-    if (null == $scope.personId) {
+    if (null == $scope.SessionId) {
         $location.url('/login');
         return;
     }
@@ -17,8 +17,8 @@ dyelControllers.controller('WorkoutsCtrl', function ($scope, $location, $routePa
         });
     });
 
-    $scope.following = Follower.following({ followerId: $scope.personId });
-    $scope.followers = Follower.followers({ followeeId: $scope.personId });
+    $scope.following = Follower.following({ SessionId: $scope.SessionId, SessionName: 'FollowerId' });
+    $scope.followers = Follower.followers({ SessionId: $scope.SessionId, SessionName: 'FolloweeId' });
 
     $scope.workouts = [];
     $scope.joiners = {};
@@ -47,16 +47,16 @@ dyelControllers.controller('WorkoutsCtrl', function ($scope, $location, $routePa
 
     // Get all workouts
     $scope.getWorkouts = function () {
-        return Workout.getAll({ personId: $scope.personId }, function () {
+        return Workout.getAll({ SessionId: $scope.SessionId }, function () {
             $scope.workouts.forEach(function (workout) {
-                $scope.joiners[workout.WorkoutId] = Joiner.getJoiners({ workoutId: workout.WorkoutId });
+                $scope.joiners[workout.WorkoutId] = Joiner.getJoiners({ SessionId: $scope.SessionId, WorkoutId: workout.WorkoutId });
             });
         });
     }
 
     // Broadcast new workout
     $scope.broadcastWorkout = function (newWorkout) {
-        newWorkout.PersonId = $scope.personId;
+        newWorkout.SessionId = $scope.SessionId;
         newWorkout.LocationId = newWorkout.LocationId.FitnessLocationId;
         newWorkout.Focus = newWorkout.Focus.FocusId;
         Workout.create(newWorkout, function () {
@@ -66,25 +66,25 @@ dyelControllers.controller('WorkoutsCtrl', function ($scope, $location, $routePa
 
     // Request to join a workout
     $scope.requestJoin = function (workoutId) {
-        var newRequest = { PersonId: $scope.personId, WorkoutId: workoutId };
+        var newRequest = { SessionId: $scope.SessionId, WorkoutId: workoutId };
         Joiner.postRequest(newRequest, function () {
-            $scope.joiners[workoutId] = Joiner.getJoiners({ WorkoutId: workoutId });
+            $scope.joiners[workoutId] = Joiner.getJoiners({ SessionId: $scope.SessionId, WorkoutId: workoutId });
         });
     }
 
     // Removes user's join request from workout
     $scope.removeJoin = function (workoutId) {
-        var temp = { PersonId: $scope.personId, WorkoutId: workoutId };
+        var temp = { SessionId: $scope.SessionId, WorkoutId: workoutId };
         Joiner.removeRequest(temp, function () {
-            $scope.joiners[workoutId] = Joiner.getJoiners({ WorkoutId: workoutId });
+            $scope.joiners[workoutId] = Joiner.getJoiners(temp);
         })
     }
 
     // Respond to join request
     $scope.respond = function (join, status) {
-        var temp = { PersonId: join.PersonId, WorkoutId: join.WorkoutId, Status: status };
+        var temp = { SessionId: $scope.SessionId, SessionName: 'ResponderId', PersonId: join.PersonId, WorkoutId: join.WorkoutId, Status: status };
         Joiner.respond(temp, function () {
-            $scope.joiners[join.WorkoutId] = Joiner.getJoiners({ WorkoutId: join.WorkoutId });
+            $scope.joiners[join.WorkoutId] = Joiner.getJoiners({ SessionId: $scope.SessionId, WorkoutId: join.WorkoutId });
         });
     }
 
@@ -92,7 +92,7 @@ dyelControllers.controller('WorkoutsCtrl', function ($scope, $location, $routePa
     $scope.attendingWorkouts = function (workout) {
         var joiners = $scope.joiners[workout.WorkoutId];
         return joiners.reduce(function (prev, curr) {
-            return prev || (curr.PersonId == $scope.personId && curr.Status == 1);
+            return prev || (curr.PersonId == $scope.SessionName && curr.Status == 1);
         }, false);
     }
 
@@ -100,7 +100,7 @@ dyelControllers.controller('WorkoutsCtrl', function ($scope, $location, $routePa
     $scope.suggestedWorkouts = function (workout) {
         var joiners = $scope.joiners[workout.WorkoutId];
         return !joiners.reduce(function (prev, curr) {
-            return prev || (curr.PersonId == $scope.personId);
+            return prev || (curr.PersonId == $scope.SessionName);
         }, false);
     }
 
@@ -108,7 +108,7 @@ dyelControllers.controller('WorkoutsCtrl', function ($scope, $location, $routePa
     $scope.hasSentRequest = function (workout) {
         var joiners = $scope.joiners[workout.WorkoutId];
         return joiners.reduce(function (prev, curr) {
-            return prev || (curr.PersonId == $scope.personId);
+            return prev || (curr.PersonId == $scope.SessionName);
         }, false);
     }
 

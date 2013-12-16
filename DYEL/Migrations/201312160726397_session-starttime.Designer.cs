@@ -7,13 +7,13 @@ namespace DYEL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.0.0-20911")]
-    public sealed partial class wtf5 : IMigrationMetadata
+    public sealed partial class sessionstarttime : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(wtf5));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(sessionstarttime));
         
         string IMigrationMetadata.Id
         {
-            get { return "201312050221137_wtf5"; }
+            get { return "201312160726397_session-starttime"; }
         }
         
         string IMigrationMetadata.Source

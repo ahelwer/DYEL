@@ -7,9 +7,9 @@ dyelControllers.controller('HomeCtrl', function ($rootScope, $scope, $location, 
     // Submit new user
     $scope.submitNewUser = function (newUser) {
         newUser.Focus = newUser.Focus.FocusId;
-        Person.create(newUser, function () {
-            $rootScope.personId = newUser.Id;
-            Utilities.clear(newUser);
+        $rootScope.SessionId = Person.create(newUser, function () {
+            $rootScope.SessionName = $rootScope.SessionId.PersonId;
+            $rootScope.SessionId = $rootScope.SessionId.SessionId;
             $location.url('/feed');
         });
     };

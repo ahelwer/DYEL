@@ -6,6 +6,7 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DYEL.Models;
@@ -26,7 +27,7 @@ namespace DYEL.Controllers
         public IEnumerable<Person> GetPeople()
         {
             IEnumerable<Person> people = from person in db.People
-                                         orderby person.Id ascending
+                                         orderby person.PersonId ascending
                                          select person;
             
             foreach(Person person in people)
@@ -37,51 +38,41 @@ namespace DYEL.Controllers
             return people;
         }
 
-        public IHttpActionResult GetLogin(String id, String password)
+        public Session PostNewPerson([FromBody]Person person)
         {
-            Person person = db.People.Find(id);
-
-            if (null != person && person.Password == password)
-            {
-                return Ok();
-            }
-            else
-            {
-                return Unauthorized();
-            }
-        }
-
-        public IHttpActionResult PostNewPerson([FromBody]Person person)
-        {
-            System.Diagnostics.Debug.WriteLine(person.Id + " " + person.Password + " " + person.Age + " " + person.Gender + " " + person.Focus);
             if (null != person
-                && null != person.Id
-                && null == db.People.Find(person.Id)
+                && null != person.PersonId
+                && null == db.People.Find(person.PersonId)
                 && 0 <= person.Age
                 && null != person.Focus
                 && null != db.Foci.Find(person.Focus))
             {
-                System.Diagnostics.Debug.WriteLine("reached");
                 db.People.Add(person);
 
                 // A person always follows themselves
                 Follower identity = new Follower
                 {
-                    FollowerId = person.Id,
-                    FolloweeId = person.Id
+                    FollowerId = person.PersonId,
+                    FolloweeId = person.PersonId
                 };
                 db.Followers.Add(identity);
-                System.Diagnostics.Debug.WriteLine("reached");
 
+                // Create new session
+                Session newSession = new Session
+                {
+                    SessionId = Guid.NewGuid(),
+                    PersonId = person.PersonId,
+                    StartTime = DateTime.Now
+                };
+                db.Sessions.Add(newSession);
 
                 db.SaveChanges();
-                System.Diagnostics.Debug.WriteLine("reached");
 
-                return Ok();
+                return newSession;
             }
             else
             {
-                return Unauthorized();
+                throw new HttpException("Invalid user creation");
             }
         }
     }

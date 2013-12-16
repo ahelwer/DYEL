@@ -1,12 +1,12 @@
 ﻿var dyelControllers = angular.module('dyelControllers');
 
 // LOGIN CONTROLLER
-dyelControllers.controller('LoginCtrl', function ($rootScope, $scope, $location, Person) {
+dyelControllers.controller('LoginCtrl', function ($rootScope, $scope, $location, Session) {
     // Submit login
     $scope.submitLogin = function (user) {
-        Person.login(user, function () {
-            $rootScope.personId = user.Id;
-            user = null;
+        $rootScope.SessionId = Session.login(user, function () {
+            $rootScope.SessionName = $rootScope.SessionId.PersonId;
+            $rootScope.SessionId = $rootScope.SessionId.SessionId;
             $location.url('/feed');
         });
     };

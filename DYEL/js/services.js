@@ -28,13 +28,20 @@ dyelApp.factory('Utilities', function () {
     return functions;
 });
 
+// SESSION RESOURCE
+dyelApp.factory('Session', function ($resource) {
+    return $resource('/api/session', {}, {
+        login:  { method: 'GET' },      // (String PersonId, String Password) => Session
+        logout: { method: 'DELETE' }    // (Guid SessionId) => IHttpActionResult Success
+    });
+});
+
 // PERSON RESOURCE
 dyelApp.factory('Person', function ($resource) {
     return $resource('/api/person', {}, {
         get:    { method: 'GET' },                  // (String requestedPerson) => Person
         getAll: { method: 'GET', isArray: true },   // () => IEnumerable<Person>
-        login:  { method: 'GET' },                  // (String id, String password) => IHttpActionResult
-        create: { method: 'POST' }                  // (String id, String password, String gender, int age, String focus) => IHttpActionResult
+        create: { method: 'POST' }                  // (String id, String password, String gender, int age, String focus) => Session
     });
 });
 
@@ -51,24 +58,24 @@ dyelApp.factory('Follower', function ($resource) {
 // POST RESOURCE
 dyelApp.factory('Post', function ($resource) {
     return $resource('/api/post', {}, {
-        getAll: { method: 'GET', isArray: true },   // (String personId) => IEnumerable<Post>
-        create: { method: 'POST' }                  // (String personId, String text, String focus) => IHttpActionResult
+        getAll: { method: 'GET', isArray: true },   // (Guid SessionId) => IEnumerable<Post>
+        create: { method: 'POST' }                  // (Guid SessionId, String text, String focus) => IHttpActionResult
     });
 });
 
 // COMMENT RESOURCE
 dyelApp.factory('Comment', function ($resource) {
     return $resource('/api/comment', {}, {
-        getAll: { method: 'GET', isArray: true },   // (Guid postId) => IEnumerable<Comment>
-        create: { method: 'POST' }                  // (Guid postId, String personId, String text) => IHttpActionResult
+        getAll: { method: 'GET', isArray: true },   // (Guid SessionId, Guid postId) => IEnumerable<Comment>
+        create: { method: 'POST' }                  // (Guid postId, Guid SessionId, String text) => IHttpActionResult
     });
 });
 
 // WORKOUT RESOURCE
 dyelApp.factory('Workout', function ($resource) {
     return $resource('/api/workout', {}, {
-        getAll: { method: 'GET', isArray: true },   // (String personId) => IEnumerable<Workout>
-        create: { method: 'POST' }                  // (String personId, Guid locationId, DateTime time, String description, String focus) => IHttpActionResult
+        getAll: { method: 'GET', isArray: true },   // (Guid SessionId) => IEnumerable<Workout>
+        create: { method: 'POST' }                  // (Guid SessionId, Guid locationId, DateTime time, String description, String focus) => IHttpActionResult
     });
 });
 
