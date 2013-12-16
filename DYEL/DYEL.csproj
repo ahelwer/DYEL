@@ -148,6 +148,10 @@
     <Compile Include="Migrations\201312160726397_session-starttime.Designer.cs">
       <DependentUpon>201312160726397_session-starttime.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201312160837048_full try.cs" />
+    <Compile Include="Migrations\201312160837048_full try.Designer.cs">
+      <DependentUpon>201312160837048_full try.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Attends.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -493,6 +497,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201312160726397_session-starttime.resx">
       <DependentUpon>201312160726397_session-starttime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201312160837048_full try.resx">
+      <DependentUpon>201312160837048_full try.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
