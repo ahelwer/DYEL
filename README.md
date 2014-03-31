@@ -3,7 +3,7 @@ DYEL
 
 A fitness-oriented social network app. Created as a final project for the CPSC 471 (databases) class at the University of Calgary in the Fall 2013 semester.
 
-Live demo website (create an account!): http://dyel.azurewebsites.net/
+Live demo website (create an account!): http://dyeldemo.azurewebsites.net
 
 Full spec & user manual (.pdf): https://skydrive.live.com/redir?resid=55025043B9B81FAF%215023
 
